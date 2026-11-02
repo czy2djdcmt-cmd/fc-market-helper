@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101522">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FC Market 2.0">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<title>FC Market Helper 2.0</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1220;--panel:#172236;--panel2:#1d2b42;--muted:#9aabc2;--line:#2b3b55;--accent:#b7f36b;--cyan:#67d9dc;--text:#f4f7fb;--danger:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#263d5a 0,transparent 48%),linear-gradient(160deg,#101a2c,#0c1220 60%);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom))}
+main{max-width:680px;margin:0 auto}.top{padding:24px 4px 15px}.eyebrow{color:var(--accent);font-size:11px;font-weight:900;letter-spacing:1.7px}.top h1{font-size:29px;line-height:1.05;margin:8px 0}.top p{color:var(--muted);margin:0;line-height:1.45}.version{display:inline-block;border:1px solid #456044;border-radius:20px;padding:4px 9px;color:var(--accent);font-size:10px;margin-top:10px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:sticky;top:0;z-index:5;padding:8px 0;background:#0c1220ed;backdrop-filter:blur(12px)}
+.nav button{padding:11px 4px;border-radius:11px;background:#1a2940;color:#b7c5d8;border:1px solid var(--line);font-size:11px;font-weight:800}.nav button.active{background:var(--accent);color:#15200f;border-color:var(--accent)}
+.card{background:linear-gradient(145deg,#1b2940,#152034);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 12px 30px #0003}.card h2{font-size:16px;margin:0 0 13px}.field{display:block;margin:11px 0}.field span{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+input,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#0e1829;color:var(--text);padding:13px;font-size:16px;outline:none;min-width:0}input:focus,select:focus{border-color:var(--accent)}
+button,.linkbtn{border:0;border-radius:11px;padding:13px 15px;font-size:14px;font-weight:850;cursor:pointer;text-align:center;text-decoration:none;display:block}
+.primary{background:var(--accent);color:#14200e}.secondary{background:#293a54;color:var(--text);border:1px solid #405371}.danger{background:#472c39;color:#ffd9df;border:1px solid #704352}.small{width:auto;padding:8px 10px;font-size:11px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions>*{flex:1}.hint{font-size:12px;line-height:1.5;color:var(--muted);margin:10px 2px 0}.status{font-size:12px;color:var(--cyan);margin-top:9px;min-height:16px}.muted{color:var(--muted)}.empty{color:var(--muted);font-size:13px;padding:9px 0;line-height:1.5}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}.item:first-child{border-top:0}.player{font-weight:850}.sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}.price{color:var(--accent);font-weight:900;white-space:nowrap}.rowright{text-align:right;min-width:110px}.pill{display:inline-block;font-size:10px;padding:4px 7px;border-radius:20px;background:#293b50;color:#c9d8eb;margin-top:5px}.good{color:var(--accent)}.bad{color:var(--danger)}.hidden{display:none!important}
+.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:#101a2b;border:1px solid var(--line);border-radius:12px;padding:12px}.stat strong{font-size:21px;display:block;color:var(--accent)}.stat span{font-size:11px;color:var(--muted)}
+.foot{font-size:10px;color:var(--muted);line-height:1.5;text-align:center;padding:14px 8px}.sectionnote{font-size:12px;color:var(--muted);line-height:1.5}.historyrow{font-size:12px;padding:9px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.tag{font-size:10px;color:var(--cyan)}
+@media(min-width:560px){.nav button{font-size:13px}.statgrid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body><main>
+<header class="top">
+ <div class="eyebrow">ULTIMATE TEAM • FAN TOOL</div>
+ <h1>FC Market Helper</h1>
+ <p>Twoje centrum obserwacji kart, limitów i historii cen.</p>
+ <span class="version">WERSJA 2.0 • PWA</span>
+</header>
+<nav class="nav" aria-label="Nawigacja">
+ <button class="active" data-tab="home">Start</button><button data-tab="search">Szukaj</button><button data-tab="watch">Obserwowane</button><button data-tab="history">Historia</button>
+</nav>
+<section id="home" class="tab">
+ <div class="card">
+  <h2>Panel rynku</h2>
+  <div class="statgrid">
+   <div class="stat"><strong id="statWatch">0</strong><span>Obserwowane</span></div>
+   <div class="stat"><strong id="statAlerts">0</strong><span>Okazje wg wpisanych cen</span></div>
+   <div class="stat"><strong id="statHistory">0</strong><span>Wpisy historii</span></div>
+   <div class="stat"><strong id="statLimits">0</strong><span>Ustawione limity</span></div>
+  </div>
+ </div>
+ <div class="card">
+  <h2>Uruchom FC Companion</h2>
+  <a class="linkbtn primary" href="shortcuts://run-shortcut?name=FC%20market">Otwórz skrót „FC market” ↗</a>
+  <p class="hint">Przycisk uruchamia skrót iOS, który został przez Ciebie skonfigurowany. Jeśli iOS wyświetli potwierdzenie, zaakceptuj otwarcie Skrótów.</p>
+  <div style="height:9px"></div>
+  <a class="linkbtn secondary" href="https://www.ea.com/ea-sports-fc/ultimate-team/web-app" target="_blank" rel="noopener">Otwórz oficjalny Web App EA ↗</a>
+ </div>
+ <div class="card">
+  <h2>Monitor cen</h2>
+  <p class="sectionnote">Monitor sprawdza ceny, które samodzielnie wpiszesz. Gdy nowa cena będzie równa lub niższa od limitu, aplikacja oznaczy okazję. Automatyczne pobieranie cen z rynku EA nie jest obecnie podłączone.</p>
+  <div class="actions"><button class="secondary" id="notifyBtn">Włącz powiadomienia</button><button class="secondary" id="exportBtn">Eksportuj dane</button></div>
+  <p class="hint" id="notifyStatus">Powiadomienia przeglądarki działają zależnie od wersji iOS oraz uprawnień. Alerty są sprawdzane, gdy aplikacja jest otwarta.</p>
+ </div>
+ <div class="card">
+  <h2>Dodaj kartę do obserwowanych</h2>
+  <label class="field"><span>Piłkarz / nazwa karty</span><input id="newName" maxlength="70" placeholder="Np. Kylian Mbappé"></label>
+  <label class="field"><span>Maksymalna cena (monety)</span><input id="newLimit" type="number" min="1" max="999999999" inputmode="numeric" placeholder="Np. 50000"></label>
+  <button class="primary" id="addBtn">＋ Dodaj do obserwowanych</button><div class="status" id="addStatus" aria-live="polite"></div>
+ </div>
+</section>
+<section id="search" class="tab hidden">
+ <div class="card">
+  <h2>Wyszukiwarka piłkarzy i kart</h2>
+  <label class="field"><span>Wpisz nazwę piłkarza lub karty</span><input id="searchInput" maxlength="80" placeholder="Np. Mbappé, Icon, TOTW..."></label>
+  <button class="primary" id="searchBtn">Szukaj w internecie</button>
+  <p class="hint">Wyszukiwanie otwiera wyniki internetowe w nowej karcie. Nie wymaga logowania do EA. Możesz też dodać znalezioną kartę do swojej listy i ustawić limit.</p>
+  <div id="localMatches" class="empty">Wpisz nazwę, aby przeszukać także własną listę obserwowanych.</div>
+ </div>
+ <div class="card"><h2>Przydatne miejsca</h2>
+  <a class="linkbtn secondary" href="https://www.ea.com/ea-sports-fc/ultimate-team/web-app" target="_blank" rel="noopener">EA SPORTS FC Web App ↗</a>
+  <div style="height:8px"></div>
+  <a class="linkbtn secondary" href="https://www.google.com/search?q=EA+FC+player+prices" target="_blank" rel="noopener">Szukaj cen kart w internecie ↗</a>
+ </div>
+</section>
+<section id="watch" class="tab hidden">
+ <div class="card"><h2>Moje obserwowane karty</h2><p class="sectionnote">Aktualną cenę wpisujesz ręcznie. Każda zmiana zostanie dopisana do historii.</p><div id="watchList" class="empty">Nie dodano jeszcze żadnych kart.</div></div>
+ <div class="card"><h2>Dodaj / zmień kartę</h2>
+  <label class="field"><span>Piłkarz / karta</span><input id="editName" maxlength="70" placeholder="Nazwa karty"></label>
+  <label class="field"><span>Limit maksymalny (monety)</span><input id="editLimit" type="number" min="1" inputmode="numeric" placeholder="Limit ceny"></label>
+  <label class="field"><span>Aktualna cena (opcjonalnie)</span><input id="editPrice" type="number" min="0" inputmode="numeric" placeholder="Cena zaobserwowana"></label>
+  <button class="primary" id="saveCardBtn">Zapisz kartę</button><div class="status" id="editStatus" aria-live="polite"></div>
+ </div>
+</section>
+<section id="history" class="tab hidden">
+ <div class="card"><h2>Historia cen i limitów</h2><div id="historyList" class="empty">Historia jest pusta. Dodaj kartę lub zaktualizuj jej cenę.</div>
+ <div style="height:10px"></div><button class="danger" id="clearHistoryBtn">Wyczyść historię</button></div>
+ <div class="card"><h2>Kopia zapasowa</h2><p class="sectionnote">Eksport zapisuje obserwowane karty i historię do pliku JSON. Zaimportowanie pliku zastępuje dane zapisane na tym urządzeniu.</p>
+ <div class="actions"><button class="secondary" id="exportBtn2">Eksportuj JSON</button><button class="secondary" id="importBtn">Importuj JSON</button></div>
+ <input class="hidden" type="file" id="importFile" accept="application/json,.json">
+ </div>
+</section>
+<div class="foot">Prywatny notatnik fanowski. Nie jest powiązany z EA. Nie zbiera haseł ani danych logowania, nie odczytuje prywatnych ofert EA i nie dokonuje zakupów. Dane są przechowywane lokalnie w tej przeglądarce.</div>
+</main>
+<script>
+(()=>{
+'use strict';
+const KEY='fc-market-helper-v2';
+const $=id=>document.getElementById(id);
+let data={version:2,watch:[],history:[]},editingId=null;
+const money=n=>Number(n||0).toLocaleString('pl-PL')+' monet';
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.watch)&&Array.isArray(x.history))data=x;}catch(e){console.warn('Nie udało się odczytać danych',e)}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(data));render()}catch(e){alert('Brak miejsca na zapis danych. Wyeksportuj kopię zapasową.');}}
+function log(id,name,type,value,extra=''){data.history.unshift({id:uid(),cardId:id,name,type,value:Number(value)||0,extra,at:new Date().toISOString()});if(data.history.length>1500)data.history.length=1500;}
+function addCard(name,limit,price=null){const id=uid();data.watch.unshift({id,name,limit:Number(limit),price:price===null?null:Number(price),created:new Date().toISOString()});log(id,name,'Dodano kartę',limit,'Limit');if(price!==null){log(id,name,'Zapisano cenę',price,'Cena początkowa')}persist();return id}
+function updateCard(id,limit,price){const c=data.watch.find(x=>x.id===id);if(!c)return; if(Number(limit)!==Number(c.limit)){c.limit=Number(limit);log(id,c.name,'Zmieniono limit',limit,'Nowy limit')} if(price!==null&&price!==''&&Number.isFinite(Number(price))&&Number(price)>=0){c.price=Number(price);log(id,c.name,'Aktualizacja ceny',price,'Cena ręczna');if(c.price<=c.limit){log(id,c.name,'OKAZJA',price,'Cena osiągnęła limit');alertIfAllowed(c)}}persist()}
+function alertIfAllowed(c){if('Notification'in window&&Notification.permission==='granted'){try{new Notification('FC Market Helper – okazja',{body:c.name+': '+money(c.price)+' (limit '+money(c.limit)+')'})}catch(e){}}}
+function render(){
+ $('watchList').innerHTML='';$('historyList').innerHTML='';
+ if(!data.watch.length){$('watchList').className='empty';$('watchList').textContent='Nie dodano jeszcze żadnych kart.'}
+ else{ $('watchList').className='';data.watch.forEach(c=>{const row=document.createElement('div');row.className='item';const info=document.createElement('div');const n=document.createElement('div');n.className='player';n.textContent=c.name;const sub=document.createElement('div');sub.className='sub';sub.textContent='Limit: '+money(c.limit)+' • '+(c.price===null?'Brak aktualnej ceny':'Ostatnia cena: '+money(c.price));info.append(n,sub);const right=document.createElement('div');right.className='rowright';if(c.price!==null&&c.price<=c.limit){const tag=document.createElement('div');tag.className='pill good';tag.textContent='OKAZJA';right.append(tag)}const edit=document.createElement('button');edit.className='secondary small';edit.textContent='Aktualizuj';edit.onclick=()=>{editingId=c.id;$('editName').value=c.name;$('editLimit').value=c.limit;$('editPrice').value=c.price??'';$('editStatus').textContent='Edytujesz: '+c.name;window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})};const del=document.createElement('button');del.className='danger small';del.style.marginTop='5px';del.textContent='Usuń';del.onclick=()=>{if(confirm('Usunąć '+c.name+' z obserwowanych?')){log(c.id,c.name,'Usunięto kartę',c.limit,'Usunięcie');data.watch=data.watch.filter(x=>x.id!==c.id);persist()}};right.append(edit,del);row.append(info,right);$('watchList').append(row)})}
+ if(!data.history.length){$('historyList').className='empty';$('historyList').textContent='Historia jest pusta.'}
+ else{ $('historyList').className='';data.history.slice(0,250).forEach(h=>{const r=document.createElement('div');r.className='historyrow';const l=document.createElement('div');const n=document.createElement('strong');n.textContent=h.name+' · '+h.type;const d=document.createElement('div');d.className='sub';d.textContent=new Date(h.at).toLocaleString('pl-PL')+(h.extra?' · '+h.extra:'');l.append(n,d);const v=document.createElement('strong');v.textContent=money(h.value);r.append(l,v);$('historyList').append(r)})}
+ $('statWatch').textContent=data.watch.length;$('statAlerts').textContent=data.watch.filter(c=>c.price!==null&&c.price<=c.limit).length;$('statHistory').textContent=data.history.length;$('statLimits').textContent=data.watch.filter(c=>c.limit>0).length;
+}
+function switchTab(tab){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('hidden',x.id!==tab));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+$('addBtn').onclick=()=>{const n=$('newName').value.trim(),p=Number($('newLimit').value);if(!n||!Number.isFinite(p)||p<1){$('addStatus').textContent='Wpisz nazwę i prawidłowy limit.';return}addCard(n,Math.floor(p));$('newName').value='';$('newLimit').value='';$('addStatus').textContent='Dodano kartę. Dane zapisano na urządzeniu.'};
+$('saveCardBtn').onclick=()=>{const n=$('editName').value.trim(),l=Number($('editLimit').value),p=$('editPrice').value;if(!n||!Number.isFinite(l)||l<1){$('editStatus').textContent='Wpisz nazwę i prawidłowy limit.';return}if(editingId){const c=data.watch.find(x=>x.id===editingId);if(c&&c.name!==n){c.name=n;log(c.id,n,'Zmieniono nazwę',l,'Nazwa karty')}updateCard(editingId,Math.floor(l),p);editingId=null}else addCard(n,Math.floor(l),p===''?null:Number(p));$('editName').value='';$('editLimit').value='';$('editPrice').value='';$('editStatus').textContent='Zapisano kartę i historię.'};
+function search(){const q=$('searchInput').value.trim();if(!q)return;const matches=data.watch.filter(c=>c.name.toLocaleLowerCase('pl').includes(q.toLocaleLowerCase('pl')));$('localMatches').innerHTML='';if(matches.length){matches.forEach(c=>{const d=document.createElement('div');d.className='item';const s=document.createElement('span');s.textContent=c.name+' — limit '+money(c.limit);d.append(s);$('localMatches').append(d)})}else{$('localMatches').textContent='Brak dopasowań na Twojej liście.'}window.open('https://www.google.com/search?q='+encodeURIComponent('EA SPORTS FC '+q+' player card price'),'_blank','noopener')}
+$('searchBtn').onclick=search;$('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')search()});$('searchInput').addEventListener('input',()=>{const q=$('searchInput').value.toLocaleLowerCase('pl');const m=data.watch.filter(c=>c.name.toLocaleLowerCase('pl').includes(q));$('localMatches').textContent=q?(m.length?m.map(c=>c.name+' — '+money(c.limit)).join(' | '):'Brak dopasowań na Twojej liście.'):'Wpisz nazwę, aby przeszukać także własną listę obserwowanych.'});
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='fc-market-helper-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('exportBtn').onclick=exportData;$('exportBtn2').onclick=exportData;$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!x||!Array.isArray(x.watch)||!Array.isArray(x.history))throw Error();if(confirm('Zastąpić obecne dane zawartością kopii?')){data={version:2,watch:x.watch,history:x.history};persist();alert('Import zakończony.')}}catch(err){alert('Nieprawidłowy plik kopii zapasowej.')}e.target.value=''};
+$('clearHistoryBtn').onclick=()=>{if(confirm('Wyczyścić całą historię? Obserwowane karty pozostaną.')){data.history=[];persist()}};
+$('notifyBtn').onclick=async()=>{if(!('Notification'in window)){$('notifyStatus').textContent='Ta przeglądarka nie obsługuje powiadomień.';return}try{const p=await Notification.requestPermission();$('notifyStatus').textContent=p==='granted'?'Powiadomienia włączone. Alerty są generowane podczas ręcznej aktualizacji ceny.':'Nie przyznano uprawnień do powiadomień.'}catch(e){$('notifyStatus').textContent='Nie udało się uzyskać uprawnień. Sprawdź ustawienia Safari/iOS.'}};
+load();render();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+</script></body></html>
